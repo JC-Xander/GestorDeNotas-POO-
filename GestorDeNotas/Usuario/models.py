@@ -1,6 +1,7 @@
 from django.db import models
 from Edificio.models import Aula
 
+
 class Persona(models.Model):
     """Modelo que representa a todos los usuarios, almacenando sus datos principales
     """
@@ -92,7 +93,7 @@ class Alumno(Persona):
         Maestro,
         on_delete=models.SET_NULL,
         null=True,
-        realted_name='alumnos'
+        related_name='alumnos'
     )
 
     class Meta:
