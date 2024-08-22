@@ -66,8 +66,8 @@ class Maestro(Persona):
     grado = models.PositiveIntegerField(
         'grado',
         choices=GRADO_CHOICE,
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
     )
     seccion = models.PositiveIntegerField('Seccion')
     aula = models.OneToOneField(
