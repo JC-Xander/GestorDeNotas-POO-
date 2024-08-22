@@ -3,6 +3,7 @@ from django.utils import timezone
 
 # Create your models here.
 from Academico.models import PlanEstudio
+from Usuario.models import Alumno
 
 class Evaluacion(models.Model): 
     """Tareas creadas por el maestro"""
@@ -26,16 +27,22 @@ class Evaluacion(models.Model):
     valor = models.PositiveSmallIntegerField('valor de la tarea', default=0)
     fecha_inicio = models.DateTimeField('Fecha de Inicio', default=timezone.now)
     fecha_cierre = models.DateTimeField('Fecha de cierre', null=True, blank=True)
-    archivo_adjunto = models.FileField(
-        'archivo adjunto', 
-        upload_to='archivosEvaluacion/', 
-        null=True,
-        blank=True
+    plan_estudio = models.ForeignKey(
+        PlanEstudio,
+        on_delete=models.CASCADE,
+        related_name='evaluaciones',
+        verbose_name='Plan de Estudio'
     )
     parcial = models.PositiveIntegerField(
         'Parcial',
         choices=PARCIAL_CHOICE,
         default=PRIMER_PARCIAL
+    )
+    archivo_adjunto = models.FileField(
+        'archivo adjunto', 
+        upload_to='archivosEvaluacion/', 
+        null=True,
+        blank=True
     )
 
     class Meta:
@@ -45,4 +52,54 @@ class Evaluacion(models.Model):
 
 # --------------------------------------
 
+class Calificacion(models.Model):
+    """Almacena todas las calificaciones del estudiante"""
 
+    # ------ Estados ------
+    PENDIENTE = 1
+    REVISION = 2
+    ENTREGADO = 3
+    NO_ENTREGADO = 4
+
+    ESTADOS_CHOICES = (
+        (PENDIENTE, 'Tarea pendiente'),
+        (REVISION , 'Tarea en revició'),
+        (ENTREGADO, 'Tarea entregada'),
+        (NO_ENTREGADO, 'Tarea no entregada')
+    )
+    # --------------------------------
+
+    evaluacion = models.ForeignKey(
+        Evaluacion,
+        on_delete=models.CASCADE,
+        related_name='calificacion',
+        verbose_name='Evaluacion'
+    )
+    alumno = models.ForeignKey(
+        Alumno,
+        on_delete=models.CASCADE,
+        related_name='Calificaciones',
+        verbose_name='Alumno'
+    )
+    calificacion = models.PositiveSmallIntegerField('Calificación', default=0)
+    estado = models.PositiveIntegerField(
+        'Estado actual',
+        choices=ESTADOS_CHOICES,
+        default=PENDIENTE
+    )
+    evidencia = models.FileField(
+        'Evidencia de la tarea',
+        upload_to='archivosCalificacion/',
+        null=True,
+        blank=True
+    )
+
+    class Meta:
+        db_table='Calificaciones'
+        constraints=[
+            models.UniqueConstraint(fields=['evaluacion', 'alumno'], name='Un alumno no puede tene 2 califícaciones de la misma tarea')
+        ]
+
+    # ------ METODOS ------
+
+# ------------------------------------

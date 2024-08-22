@@ -36,7 +36,7 @@ class Bimestre(models.Model):
 
     class Meta:
         db_table='Bimestres'
-        constraints = [
+        constraints=[
             models.UniqueConstraint(fields=['anio', 'n_bimestre'], name='No pueden haber dos semestres iguales en un mismo año')
         ]
 
