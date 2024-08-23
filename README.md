@@ -28,3 +28,6 @@ Permite simular una gestion de notas de una primaria, donde los padres podran ve
 - django-filter
 
 Añadiendo `'rest_framework',` a settings.py
+
+## Seralizers
+
