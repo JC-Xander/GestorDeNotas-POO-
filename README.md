@@ -23,3 +23,8 @@ Permite simular una gestion de notas de una primaria, donde los padres podran ve
 
 # REST API 1
 ## Importación de paquetes
+- djangorestframework
+- markdown
+- django-filter
+
+Añadiendo `'rest_framework',` a settings.py
