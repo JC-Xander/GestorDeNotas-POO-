@@ -59,11 +59,16 @@ class PlanEstudio(models.Model):
         on_delete=models.CASCADE,
         related_name='plan'
     )
+    bimestre = models.ForeignKey(
+        Bimestre,
+        on_delete=models.CASCADE,
+        related_name='plan_estudio'
+    )
 
     class Meta:
         db_table = 'Planes'
         constraints = [
-            models.UniqueConstraint(fields=['maestro', 'clase'], name='Un maestro no puede llevar clases repetidas')
+            models.UniqueConstraint(fields=['maestro', 'clase', 'bimestre'], name='Un maestro no puede llevar clases repetidas en el mismo bimestre')
         ]
 
     # ------ METODOS -------

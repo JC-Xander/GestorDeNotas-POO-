@@ -7,6 +7,8 @@ class EscuelaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class AulaSerializer(serializers.ModelSerializer):
+    escuela = EscuelaSerializer()
+
     class Meta:
         model = Aula
         fields = '__all__'
