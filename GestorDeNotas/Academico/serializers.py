@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Asignatura, Bimestre, PlanEstudio
 
+# ----- Serializer de Asignatura ------- 
 class AsignaturaSerializer(serializers.ModelSerializer):
     """serializer de todos los datos de Asignatura"""
 
@@ -8,6 +9,7 @@ class AsignaturaSerializer(serializers.ModelSerializer):
         model = Asignatura
         fields = '__all__'
 
+# ----- Serializer de Bimestre ------- 
 class BimestreSerializer(serializers.ModelSerializer):
     """serializer de todos los datos de Bimestre"""
 
@@ -15,6 +17,7 @@ class BimestreSerializer(serializers.ModelSerializer):
         model = Bimestre
         fields = '__all__'
 
+# ----- Serializer PlanEstudio ---------
 class PlanEstudioSerializer(serializers.ModelSerializer):
     """serializer de todos los datos de PlanEstudio"""
 
