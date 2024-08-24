@@ -3,23 +3,16 @@ from Edificio.models import Aula
 
 
 class Persona(models.Model):
-    """Modelo que representa a todos los usuarios, almacenando sus datos principales
-    """
+    """Modelo que representa a todos los usuarios, almacenando sus datos principales"""
     # ----- Generos -----
     MASCULINO = 1
     FEMENINO = 2
-    OTRO = 3
-    HELICOPTERO = 4
-    MOTOR = 5
-    NO_ESPECIFICADO = 6
+    NO_ESPECIFICADO = 3
 
     GENDER_CHOISE = (
         (MASCULINO, 'Maculino'),
         (FEMENINO, 'Femenino'),
-        (OTRO, 'Gay'),
-        (HELICOPTERO, 'Helicptero Apache'),
-        (MOTOR, 'Motor de Lancha'),
-        (NO_ESPECIFICADO, 'No especificado')
+        (NO_ESPECIFICADO, 'No especificado'),
     )
     # ---------------------------
 
@@ -39,7 +32,7 @@ class Persona(models.Model):
     # ------ METODOS -----
 
     def __str__(self):
-        return f"{self.nombre_completo()} : {self.correoInstitucional}"
+        return f"{self.nombre_completo} : {self.correoInstitucional}"
     
     @property
     def nombre_completo(self)-> str:
@@ -70,11 +63,13 @@ class Maestro(Persona):
         blank=False,
     )
     seccion = models.PositiveIntegerField('Seccion')
+    telefono = models.CharField('Telefono', max_length=10)
     aula = models.OneToOneField(
         Aula,
         on_delete=models.PROTECT,
         related_name='aula',
     )
+
 
     class Meta:
         db_table = 'Maestros'
@@ -103,7 +98,6 @@ class Alumno(Persona):
 
     def NotaTotal(self):
         self.calificacion.all()
-
         pass
         
 # ----------------------------------------------

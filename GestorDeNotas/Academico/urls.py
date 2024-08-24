@@ -8,9 +8,9 @@ from .api import (
 )
 
 router = DefaultRouter()
-router.register(r'Asignaturas', AsignaturaViewSet)
-router.register(r'Bimestres', BimestreViewSet)
-router.register(r'PlanEstudio', PlanEstudioViewSet)
+router.register(r'asignaturas', AsignaturaViewSet)
+router.register(r'bimestres', BimestreViewSet)
+router.register(r'planEstudio', PlanEstudioViewSet)
 
 urlpatterns = [
     path('', include(router.urls))

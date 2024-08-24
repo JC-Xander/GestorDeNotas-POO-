@@ -19,7 +19,7 @@ class Escuela(models.Model):
 class Aula(models.Model):
     """Representa las aulas del centro educativo"""
 
-    codigo = models.CharField('Codigo Aula', max_length=15)
+    codigo = models.CharField('Codigo Aula', max_length=15, unique=True)
     escuela = models.ForeignKey(
         Escuela,
         on_delete=models.CASCADE,
