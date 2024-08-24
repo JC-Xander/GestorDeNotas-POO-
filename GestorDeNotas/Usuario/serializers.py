@@ -13,12 +13,12 @@ class MaestroSerializer(serializers.ModelSerializer):
         model = Maestro
         fields = '__all__'
 
-class MaestroDataSerializer(serializers.ModelSerializer):
-    """Serializer unicamente los datos que almacena Maestro"""
+# class MaestroDataSerializer(serializers.ModelSerializer):
+#     """Serializer unicamente los datos que almacena Maestro"""
 
-    class Meta:
-        model = Maestro
-        fields = '__all__'
+#     class Meta:
+#         model = Maestro
+#         fields = '__all__'
 
 # ------ Serializer Alumno ----------
 class AlumnoSerializer(serializers.ModelSerializer):

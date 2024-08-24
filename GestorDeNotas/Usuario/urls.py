@@ -10,7 +10,7 @@ from.api import (
 
 router = DefaultRouter()
 router.register(r'maestros', MaestroViewSet)
-router.register(r'maestrosData', MaestroDataViewSet)
+# router.register(r'maestrosData', MaestroDataViewSet)
 router.register(r'alumnos', AlumnoViewSet)
 
 urlpatterns = [
