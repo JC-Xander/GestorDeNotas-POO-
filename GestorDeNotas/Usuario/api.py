@@ -9,7 +9,7 @@ from .models import (
 )
 from .serializers import (
     MaestroSerializer,
-#    MaestroDataSerializer,
+    MaestroDataSerializer,
     AlumnoSerializer,
 )
 
@@ -19,9 +19,9 @@ class MaestroViewSet(viewsets.ModelViewSet):
     serializer_class = MaestroSerializer
 
 
-# class MaestroDataViewSet(viewsets.ModelViewSet):
-#     queryset = Maestro.objects.all()
-#     serializer_class = MaestroDataSerializer
+class MaestroDataViewSet(viewsets.ModelViewSet):
+    queryset = Maestro.objects.all()
+    serializer_class = MaestroDataSerializer
 
 
 # ----- ViewSet Alumno ------
