@@ -100,6 +100,12 @@ class Alumno(Persona):
         db_table='Alumnos'
 
     # ------ METODOS -----
+
+    def NotaTotal(self):
+        self.calificacion.all()
+
+        pass
+        
 # ----------------------------------------------
 
 

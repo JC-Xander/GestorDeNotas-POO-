@@ -78,8 +78,8 @@ class Calificacion(models.Model):
     alumno = models.ForeignKey(
         Alumno,
         on_delete=models.CASCADE,
-        related_name='Calificaciones',
-        verbose_name='Alumno'
+        related_name='calificaciones',
+        verbose_name='alumno'
     )
     calificacion = models.PositiveSmallIntegerField('Calificación', default=0)
     estado = models.PositiveIntegerField(

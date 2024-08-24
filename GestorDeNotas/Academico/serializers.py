@@ -1,5 +1,9 @@
 from rest_framework import serializers
-from .models import Asignatura, Bimestre, PlanEstudio
+from .models import(
+    Asignatura, 
+    Bimestre,
+    PlanEstudio,
+) 
 
 # ----- Serializer de Asignatura ------- 
 class AsignaturaSerializer(serializers.ModelSerializer):

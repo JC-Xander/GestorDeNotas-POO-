@@ -3,8 +3,8 @@ from rest_framework import serializers
 from .models import Evaluacion, Calificacion
 
 from Academico.serializers import PlanEstudioSerializer
-from Usuario.serializers import AlumnoSerializer
 
+# ---- Serializers Evaluacion -------
 class EvaluacionSerializer(serializers.ModelSerializer):
     plan_estudio = PlanEstudioSerializer()
 
@@ -12,9 +12,9 @@ class EvaluacionSerializer(serializers.ModelSerializer):
         model = Evaluacion
         fields = '__all__'
 
+# ---- Serializers Calificación -------
 class CalificacionSerializer(serializers.ModelSerializer):
     evaluacion = EvaluacionSerializer()
-    alumno = AlumnoSerializer()
 
     class Meta:
         model = Calificacion

@@ -1,6 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .api import MaestroViewSet, MaestroDataViewSet, AlumnoViewSet
+from .api import (
+    MaestroViewSet, 
+    MaestroDataViewSet, 
+    AlumnoViewSet,
+)
 
 router = DefaultRouter()
 router.register(r'maestros', MaestroViewSet, basename='maestros-completo')

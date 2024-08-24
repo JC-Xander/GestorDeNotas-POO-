@@ -24,6 +24,7 @@ class MaestroDataSerializer(serializers.ModelSerializer):
 class AlumnoSerializer(serializers.ModelSerializer):
     """Serializer con todos los datos de Alumno y los del maestro asignado"""
     maestro = MaestroDataSerializer()
+    # nota = serializers.SerializerMethodField()
 
     class Meta:
         model = Alumno
