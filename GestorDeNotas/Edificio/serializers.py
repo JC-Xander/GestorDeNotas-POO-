@@ -1,3 +1,4 @@
+# Edificio/serializers.py
 from rest_framework import serializers
 from .models import Escuela, Aula
 
@@ -12,6 +13,7 @@ class AulaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Aula
         fields = '__all__'
+
 
 
 
