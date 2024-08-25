@@ -1,6 +1,7 @@
 from django.db import models
 from Edificio.models import Aula
 
+
 class Persona(models.Model):
     """Modelo que representa a todos los usuarios, almacenando sus datos principales"""
     # ----- Generos -----
@@ -81,10 +82,10 @@ class Maestro(Persona):
 
     #==================================================================================================
 
-    def AsignaturasPorBimestre(self, bimestre_id:int) -> list:
+    def asignaturas_bimestrales(self, bimestre_id:int) -> list:
         """Lista todas las asignaturas que el maestro imparte en un bimestre"""
 
-        from Academico.models import PlanEstudio, Asignatura
+        from Academico.models import PlanEstudio
 
         asignaturas = PlanEstudio.objects.filter(
             maestro=self,
@@ -92,39 +93,42 @@ class Maestro(Persona):
         ).values_list('clase__nombre', flat=True).distinct()
         return list(asignaturas)
     
-    # def CalificacioesAsignatura(self, bimestre_id: int) -> dict:
-    #     """
-    #     Lista todas las calificaciones de los alumnos asignados a este maestro, por asignatura y bimestre.
-    #     """
-    #     from Academico.models import PlanEstudio
-    #     planes = PlanEstudio.objects.filter(
-    #         maestro=self,
-    #         bimestre_id=bimestre_id
-    #     )
-        
-    #     CalificacioesAsignatura = {} #diccionario para almacenar las calificaciones
-        
-    #     for plan in planes:
-    #         asignatura_id = plan.clase_id
-    #         evaluaciones = Evaluacion.objects.filter(plan_estudio=plan)
-            
-    #         calificaciones = Calificacion.objects.filter(
-    #             evaluacion__in=evaluaciones,
-    #             alumno__in=self.alumnos.all()
-    #         ).values('alumno__nombre', 'alumno__apellido', 'evaluacion__titulo', 'calificacion')
-            
-    #         asignatura_nombre = plan.clase.nombre
-    #         if asignatura_nombre not in CalificacioesAsignatura:
-    #             CalificacioesAsignatura[asignatura_nombre] = []
-            
-    #         for calificacion in calificaciones:
-    #             CalificacioesAsignatura[asignatura_nombre].append({
-    #                 'alumno': f"{calificacion['alumno__nombre']} {calificacion['alumno__apellido']}",
-    #                 'evaluacion': calificacion['evaluacion__titulo'],
-    #                 'calificacion': calificacion['calificacion']
-    #             })
-        
-    #     return CalificacioesAsignatura
+    def calificaciones_asignatura(self, bimestre_id: int) -> dict:
+        """
+        Lista todas las calificaciones de los alumnos asignados a este maestro, por asignatura y bimestre.
+        """
+        from Academico.models import PlanEstudio
+        from Calificacion.models import Evaluacion, Calificacion
+
+        # Filtra los planes de estudio para el maestro y el bimestre especificado
+        planes = PlanEstudio.objects.filter(maestro=self, bimestre=bimestre_id)
+
+        calificaciones_asignatura = {}  # Diccionario para almacenar las calificaciones
+
+        for plan in planes:
+            # Filtra las evaluaciones relacionadas con el plan de estudio
+            evaluaciones = Evaluacion.objects.filter(plan_estudio=plan)
+
+            # Filtra las calificaciones basadas en evaluaciones y alumnos del maestro
+            calificaciones = Calificacion.objects.filter(
+                evaluacion=evaluaciones,
+                alumno=self.alumnos.all()
+            ).values(
+                'alumno__nombre', 'alumno__apellido', 'evaluacion__titulo', 'calificacion'
+            )
+
+            asignatura_nombre = plan.clase.nombre
+            if asignatura_nombre not in calificaciones_asignatura:
+                calificaciones_asignatura[asignatura_nombre] = []
+
+            for calificacion in calificaciones:
+                calificaciones_asignatura[asignatura_nombre].append({
+                    'alumno': f"{calificacion['alumno__nombre']} {calificacion['alumno__apellido']}",
+                    'evaluacion': calificacion['evaluacion__titulo'],
+                    'calificacion': calificacion['calificacion']
+                })
+
+        return calificaciones_asignatura
 
 # --------------------------------------------
 

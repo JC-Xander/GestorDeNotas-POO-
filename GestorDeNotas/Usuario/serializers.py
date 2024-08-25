@@ -20,11 +20,45 @@ class MaestroAlumnosSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Maestro
-        fields = ['nombre', 'apellido', 'grado', 'seccion', 'alumnos']
+        fields = ['nombre', 'apellido', 'aula', 'grado', 'seccion', 'alumnos']
 
     def get_alumnos(self, obj):
         """Obtiene el número de alumnos asignados al maestro"""
         return obj.contar_alumnos()
+    
+class MaestroAsignaturasSerializer(serializers.ModelSerializer):
+    """Serializa los datos del maestro incluyendo las clases que impartira"""
+
+    asignaturas = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Maestro
+        fields = ['nombre', 'apellido', 'grado', 'seccion', 'asignaturas']
+
+    def get_asignaturas(self, obj):
+        """Obtiene las Asignaturas del Maestro"""
+        bimestre = self.context.get('bimestre')
+        if bimestre:
+            return obj.asignaturas_bimestrales(bimestre)
+        return []
+    
+
+class RetroalimetacionSerializer(serializers.ModelField) :
+    """Serializa los datos del maestro incluyendo las clases con sus respectivas calificaciones"""
+
+    calificaciones = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Maestro
+        fields = ['nombre', 'apellido', 'grado', 'seccion', 'calificaciones']
+
+    def get_asignaturas(self, obj):
+        """Obtiene las calificaciones basandose en el bimestre"""
+        bimestre = self.context.get('bimestre')
+        if bimestre:
+            return obj.calificaciones_asignatura(bimestre)
+        return {}
+
 
 class MaestroDataSerializer(serializers.ModelSerializer):
     """Serializer unicamente los datos que almacena Maestro"""
