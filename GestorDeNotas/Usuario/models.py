@@ -1,7 +1,6 @@
 from django.db import models
 from Edificio.models import Aula
 
-
 class Persona(models.Model):
     """Modelo que representa a todos los usuarios, almacenando sus datos principales"""
     # ----- Generos -----
@@ -92,43 +91,7 @@ class Maestro(Persona):
             bimestre=bimestre_id
         ).values_list('clase__nombre', flat=True).distinct()
         return list(asignaturas)
-    
-    def calificaciones_asignatura(self, bimestre_id: int) -> dict:
-        """
-        Lista todas las calificaciones de los alumnos asignados a este maestro, por asignatura y bimestre.
-        """
-        from Academico.models import PlanEstudio
-        from Calificacion.models import Evaluacion, Calificacion
 
-        # Filtra los planes de estudio para el maestro y el bimestre especificado
-        planes = PlanEstudio.objects.filter(maestro=self, bimestre=bimestre_id)
-
-        calificaciones_asignatura = {}  # Diccionario para almacenar las calificaciones
-
-        for plan in planes:
-            # Filtra las evaluaciones relacionadas con el plan de estudio
-            evaluaciones = Evaluacion.objects.filter(plan_estudio=plan)
-
-            # Filtra las calificaciones basadas en evaluaciones y alumnos del maestro
-            calificaciones = Calificacion.objects.filter(
-                evaluacion=evaluaciones,
-                alumno=self.alumnos.all()
-            ).values(
-                'alumno__nombre', 'alumno__apellido', 'evaluacion__titulo', 'calificacion'
-            )
-
-            asignatura_nombre = plan.clase.nombre
-            if asignatura_nombre not in calificaciones_asignatura:
-                calificaciones_asignatura[asignatura_nombre] = []
-
-            for calificacion in calificaciones:
-                calificaciones_asignatura[asignatura_nombre].append({
-                    'alumno': f"{calificacion['alumno__nombre']} {calificacion['alumno__apellido']}",
-                    'evaluacion': calificacion['evaluacion__titulo'],
-                    'calificacion': calificacion['calificacion']
-                })
-
-        return calificaciones_asignatura
 
 # --------------------------------------------
 
@@ -149,7 +112,27 @@ class Alumno(Persona):
         db_table='Alumnos'
 
     # ------ METODOS -----
-        
+    
+    def optener_nota(self, asignatura_id):
+        from Calificacion.models import Calificacion
+
+    # Filtra las calificaciones del alumno por la asignatura especificada
+        calificaciones = Calificacion.objects.filter(
+            alumno=self,
+            asignatura_id=asignatura_id
+        ).values('evaluacion__titulo', 'calificacion', 'estado')
+
+        resultados = []
+
+        for calificacion in calificaciones:
+            resultados.append({
+                'evaluacion': calificacion['evaluacion__titulo'],
+                'calificacion': calificacion['calificacion'],
+                'estado': calificacion['estado']
+        })
+
+        return resultados
+
 # ----------------------------------------------
 
 

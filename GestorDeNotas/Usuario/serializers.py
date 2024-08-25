@@ -41,24 +41,6 @@ class MaestroAsignaturasSerializer(serializers.ModelSerializer):
         if bimestre:
             return obj.asignaturas_bimestrales(bimestre)
         return []
-    
-
-class RetroalimetacionSerializer(serializers.ModelField) :
-    """Serializa los datos del maestro incluyendo las clases con sus respectivas calificaciones"""
-
-    calificaciones = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Maestro
-        fields = ['nombre', 'apellido', 'grado', 'seccion', 'calificaciones']
-
-    def get_asignaturas(self, obj):
-        """Obtiene las calificaciones basandose en el bimestre"""
-        bimestre = self.context.get('bimestre')
-        if bimestre:
-            return obj.calificaciones_asignatura(bimestre)
-        return {}
-
 
 class MaestroDataSerializer(serializers.ModelSerializer):
     """Serializer unicamente los datos que almacena Maestro"""

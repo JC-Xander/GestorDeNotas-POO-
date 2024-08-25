@@ -72,7 +72,7 @@ class Calificacion(models.Model):
     evaluacion = models.ForeignKey(
         Evaluacion,
         on_delete=models.CASCADE,
-        related_name='calificacion',
+        related_name='calificaciones',
         verbose_name='Evaluacion'
     )
     alumno = models.ForeignKey(

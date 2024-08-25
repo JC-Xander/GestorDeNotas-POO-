@@ -14,7 +14,6 @@ from .serializers import (
     MaestroAlumnosSerializer,
     MaestroAsignaturasSerializer,
     AlumnoSerializer,
-    RetroalimetacionSerializer,
 )
 
 # ----- ViewSet Maestro ------
@@ -52,30 +51,6 @@ class MaestroAsignaturasViewSet(viewsets.ModelViewSet):
         }
 
         return Response(response_data)
-    
-
-class RetroalimentacionViewSet(viewsets.ViewSet):
-    """
-    ViewSet para obtener todos los maestros con calificaciones basadas en un bimestre específico.
-    """
-
-    queryset = Maestro.objects.all()
-    serializer_class = RetroalimetacionSerializer
-
-    def get_serializer_context(self):
-        """
-        Añade el bimestre al contexto del serializer.
-        """
-        context = super().get_serializer_context()
-        bimestre = self.request.query_params.get('bimestre')
-        if bimestre:
-            try:
-                context['bimestre'] = int(bimestre)
-            except ValueError:
-                context['bimestre'] = None
-        else:
-            context['bimestre'] = None
-        return context
     
 
 # ----- ViewSet Alumno ------
