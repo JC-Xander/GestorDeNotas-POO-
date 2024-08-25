@@ -10,8 +10,8 @@
 @author: Jean Carlos Alexander Maradiaga Herrera
 @acount: 20211030696
 
-@author: @Name
-@acount: @N°Cuenta
+@author: Ashlee Kassandra Vasquez Osorio
+@acount: 20221001099
 
 @version: 0.0.1
 @since: 2024/08/18
