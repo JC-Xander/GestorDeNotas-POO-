@@ -13,6 +13,19 @@ class MaestroSerializer(serializers.ModelSerializer):
         model = Maestro
         fields = '__all__'
 
+class MaestroAlumnosSerializer(serializers.ModelSerializer):
+    """Serializa los datos del maestro incluyendo el conteo de alumnos"""
+
+    alumnos = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Maestro
+        fields = ['nombre', 'apellido', 'grado', 'seccion', 'alumnos']
+
+    def get_alumnos(self, obj):
+        """Obtiene el número de alumnos asignados al maestro"""
+        return obj.contar_alumnos()
+
 class MaestroDataSerializer(serializers.ModelSerializer):
     """Serializer unicamente los datos que almacena Maestro"""
 

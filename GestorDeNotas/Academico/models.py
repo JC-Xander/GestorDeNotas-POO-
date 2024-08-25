@@ -15,6 +15,9 @@ class Asignatura(models.Model):
 
     # ------ METODOS ------
 
+    def __str__(self):
+        return f"{self.nombre}"
+
 # ----------------------------------
 
 class Bimestre(models.Model):
@@ -74,6 +77,6 @@ class PlanEstudio(models.Model):
     # ------ METODOS -------
 
     def __str__(self):
-        return f'{self.maestro} enseña {self.clase}'
+        return f'{self.maestro} - {self.clase}'
     
 # ----------------------------------

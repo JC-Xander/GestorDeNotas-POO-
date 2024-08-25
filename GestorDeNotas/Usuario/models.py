@@ -1,7 +1,6 @@
 from django.db import models
 from Edificio.models import Aula
 
-
 class Persona(models.Model):
     """Modelo que representa a todos los usuarios, almacenando sus datos principales"""
     # ----- Generos -----
@@ -32,7 +31,7 @@ class Persona(models.Model):
     # ------ METODOS -----
 
     def __str__(self):
-        return f"{self.nombre_completo} : {self.correoInstitucional}"
+        return f"{self.nombre_completo}"
     
     @property
     def nombre_completo(self)-> str:
@@ -75,6 +74,57 @@ class Maestro(Persona):
         db_table = 'Maestros'
 
     # ------ METODOS -----
+    
+    def contar_alumnos(self) -> int:
+        """Retorna el total del alumnos del maestro"""
+        return self.alumnos.count()
+
+    #==================================================================================================
+
+    def AsignaturasPorBimestre(self, bimestre_id:int) -> list:
+        """Lista todas las asignaturas que el maestro imparte en un bimestre"""
+
+        from Academico.models import PlanEstudio, Asignatura
+
+        asignaturas = PlanEstudio.objects.filter(
+            maestro=self,
+            bimestre=bimestre_id
+        ).values_list('clase__nombre', flat=True).distinct()
+        return list(asignaturas)
+    
+    # def CalificacioesAsignatura(self, bimestre_id: int) -> dict:
+    #     """
+    #     Lista todas las calificaciones de los alumnos asignados a este maestro, por asignatura y bimestre.
+    #     """
+    #     from Academico.models import PlanEstudio
+    #     planes = PlanEstudio.objects.filter(
+    #         maestro=self,
+    #         bimestre_id=bimestre_id
+    #     )
+        
+    #     CalificacioesAsignatura = {} #diccionario para almacenar las calificaciones
+        
+    #     for plan in planes:
+    #         asignatura_id = plan.clase_id
+    #         evaluaciones = Evaluacion.objects.filter(plan_estudio=plan)
+            
+    #         calificaciones = Calificacion.objects.filter(
+    #             evaluacion__in=evaluaciones,
+    #             alumno__in=self.alumnos.all()
+    #         ).values('alumno__nombre', 'alumno__apellido', 'evaluacion__titulo', 'calificacion')
+            
+    #         asignatura_nombre = plan.clase.nombre
+    #         if asignatura_nombre not in CalificacioesAsignatura:
+    #             CalificacioesAsignatura[asignatura_nombre] = []
+            
+    #         for calificacion in calificaciones:
+    #             CalificacioesAsignatura[asignatura_nombre].append({
+    #                 'alumno': f"{calificacion['alumno__nombre']} {calificacion['alumno__apellido']}",
+    #                 'evaluacion': calificacion['evaluacion__titulo'],
+    #                 'calificacion': calificacion['calificacion']
+    #             })
+        
+    #     return CalificacioesAsignatura
 
 # --------------------------------------------
 
@@ -95,10 +145,6 @@ class Alumno(Persona):
         db_table='Alumnos'
 
     # ------ METODOS -----
-
-    def NotaTotal(self):
-        self.calificacion.all()
-        pass
         
 # ----------------------------------------------
 
