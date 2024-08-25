@@ -26,7 +26,6 @@ class PlanEstudioSerializer(serializers.ModelSerializer):
     """serializer de todos los datos de PlanEstudio"""
 
     clase = AsignaturaSerializer()
-    bimestre = BimestreSerializer()
 
     class Meta:
         model = PlanEstudio

@@ -1,0 +1,2 @@
+USER = POO
+CONTRASEÑA = theadmin123

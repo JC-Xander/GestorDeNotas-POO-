@@ -14,6 +14,9 @@ class Escuela(models.Model):
 
     # ------ METODOS -------
 
+    def __str__(self):
+        return self.nombre
+
 # ---------------------------
 
 class Aula(models.Model):
@@ -32,5 +35,6 @@ class Aula(models.Model):
         verbose_name_plural = 'aulas'
 
     # ----- METODOS -----
-
+    def __str__(self):
+        return self.codigo
 # ----------------------------------------

@@ -79,8 +79,6 @@ class Maestro(Persona):
         """Retorna el total del alumnos del maestro"""
         return self.alumnos.count()
 
-    #==================================================================================================
-
     def asignaturas_bimestrales(self, bimestre_id:int) -> list:
         """Lista todas las asignaturas que el maestro imparte en un bimestre"""
 
@@ -91,7 +89,6 @@ class Maestro(Persona):
             bimestre=bimestre_id
         ).values_list('clase__nombre', flat=True).distinct()
         return list(asignaturas)
-
 
 # --------------------------------------------
 
